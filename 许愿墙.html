@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>许愿墙</title>
+    <style>
+        body {
+            margin: 0 auto;
+            padding: 0px;
+            font-size: 12px;
+            background: url(images/bg.gif) repeat center 36px;
+            text-align: center;
+            background-color: #c30230;
+        }
+        #content {
+            margin: 0 auto;
+            width: 960px;
+            background: url(images/content_bg.jpg) no-repeat left top;
+            height: 627px;
+        }
+        #content .tip1, #content .tip2, #content .tip3, #content .tip4, #content .tip5, #content .tip6, #content .tip7, #content .tip8 {
+            position: absolute;
+            width: 227px;
+            left: 200px;
+            top: 100px;
+        }
+        #content .tip1 .tip_h {
+            background: url(images/tip1_h.gif) no-repeat left top;
+        }
+        #content .tip1 .tip_h, #content .tip2 .tip_h, #content .tip3 .tip_h, #content .tip4 .tip_h, #content .tip5 .tip_h, #content .tip6 .tip_h, #content .tip7 .tip_h, #content .tip8 .tip_h {
+            width: 227px;
+            padding-top: 45px;
+            height: 23px;
+            text-align: left;
+            cursor: move;
+        }
+        #content .tip1 .tip_c {
+            background: url(images/tip1_c.gif) repeat-y;
+        }
+        #content .tip1 .tip_c, #content .tip2 .tip_c, #content .tip3 .tip_c, #content .tip4 .tip_c, #content .tip5 .tip_c, #content .tip6 .tip_c, #content .tip7 .tip_c, #content .tip8 .tip_c {
+            width: 200px;
+            padding-left: 12px;
+            padding-right: 15px;
+            min-height: 40px;
+            text-align: left;
+            line-height: 20px;
+            max-height: 160px;
+            word-wrap: break-word;
+            word-break: break-all;
+            overflow: hidden;
+        }
+        #content .tip1 .tip_f {
+            background: url(images/tip1_f.gif) no-repeat left top;
+        }
+        #content .tip1 .tip_f, #content .tip2 .tip_f, #content .tip3 .tip_f, #content .tip4 .tip_f, #content .tip5 .tip_f, #content .tip6 .tip_f, #content .tip7 .tip_f, #content .tip8 .tip_f {
+            width: 227px;
+            height: 53px;
+            padding-top: 20px;
+        }
+        #content .close, #content .close2 {
+            float: left;
+            font-size: 12px;
+            cursor: pointer;
+            color: #000000;
+        }
+        .clr {
+            clear: both;
+            overflow: auto;
+            display: block;
+            height: 0px;
+        }
+        #content .icon {
+            float: left;
+            width: 35px;
+            padding-left: 15px;
+            height: 35px;
+            text-align: center;
+        }
+        #content .name {
+            float: right;
+            padding-right: 15px;
+            text-align: right;
+            font-size: 14px;
+            line-height: 35px;
+            color: #C0F;
+        }
+        #content .num {
+            float: left;
+            padding-left: 7px;
+            width: 195px;
+        }
+    </style>
+</head>
+<body>
+<div id="content">
+</div>
+<script>
+    var datas = [
+        {"id": 1, "name": "小叶.", "content": "2016年10月25号，不寻常的一天。充满了感动，因为我不知道以后还会遇到怎样的人，经历怎样的幸运，而又会不会让我像今天一样的记忆深刻。", "time": "2016-10-25 13:00:00"},
+        {"id": 2, "name": "海霞.", "content": "后来我才懂得世界之大，内心之小。书本只能打开想象，旅行才打开视野，走的路多了，见得人多了，心会越来越宽容大度", "time": "2016-02-12 12:26:00"},
+        {"id": 3, "name": "7.", "content": "不知道在什么时候，遇到怎样的人，发生怎么样的事，未来充满了未知和变数", "time": "2016-05-17 09:40:00"},
+        {"id": 4, "name": "黄小叶.", "content": "有时候心情沮丧的，给父母打个电话，好像一切又没有那么糟糕。", "time": "2016-05-12 12:08:00"},
+        {"id": 5, "name": "黄海霞.", "content": "在大家的印象里，我是怎样一个妹纸，又或者是怎样一个女汉子呢？其实很希望自己能成为软妹子的。", "time": "2016-08-12 10:10:00"},
+        {"id": 6, "name": "霞霞.", "content": "我最喜欢的一句诗叫做：小舟从此逝，沧海寄余生。", "time": "2016-04-11 15:23:00"},
+        {"id": 7, "name": "虾.", "content": "大家都不知道， 其实我还有一个小外号叫虾，因为我特别爱吃虾。工作之后被大家取了好多名字，老黄 黄老板 还有那撒什么的 你们你懂的~", "time": "2016-09-28 17:55:00"},
+        {"id": 8, "name": "虾米.", "content": "希望永无bug！！！Fighting", "time": "2016-11-12 19:20:00"},
+        {
+            "id": 9,
+            "name": "黄海霞.",
+            "content": "我有一个梦想。一间不大但是温暖的房子，一条神经症的二哈陪着调皮的儿子，一起窝在沙发看电视的老公",
+            "time": "2016-12-12 01:30:00"
+        }
+    ];
+    var zIndex = 1;
+    var content = document.getElementById("content");
+    for (var i = 0; i < datas.length; i++) {
+        var data = datas[i];
+        //动态生成div
+        var div = document.createElement("div");
+        div.className = "tip1";
+        div.id = "cc" + data.id;
+        div.innerHTML = '<div class="tip_h" title="双击关闭纸条">'
+                + '<div class="num">第[n]条 '+data.time+'</div>'
+                + '<div class="close" title="关闭纸条">×</div>'
+                + '<div class="clr"></div>'
+                + '</div>'
+                + '<div class="tip_c">'
+                + data.content
+                + '</div>'
+                + '<div class="tip_f">'
+                + '<div class="icon">'
+                + '<img src="images/bpic_1.gif" alt="" title="">'
+                + '</div>'
+                + '<div class="name">'+data.name+'</div>'
+                + '<div class="clr"></div>'
+                + '</div>';
+        content.appendChild(div);
+        var x = parseInt(Math.random() * 700) + 200;
+        var y = parseInt(Math.random() * 400);
+        div.style.left = x + "px";
+        div.style.top = y + "px";
+        div.onclick = function () {
+            zIndex++;
+            this.style.zIndex = zIndex;
+        };
+        var closeDiv = div.children[0];
+        closeDiv.ondblclick = function () {
+            this.parentNode.style.display = "none";
+        };
+        var closeBtn = closeDiv.children[1];
+        closeBtn.onclick = function () {
+            this.parentNode.parentNode.style.display = "none";
+        };
+    }
+</script>
+</body>
+</html>
